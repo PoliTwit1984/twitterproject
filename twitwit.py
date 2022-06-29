@@ -4,15 +4,15 @@ import string
 
 import matplotlib.pyplot as plt
 import nltk
+import numpy as np
 import pandas as pd
 import preprocessor as p
 import tweepy
 import wordcloud
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from PIL import Image, ImageDraw, ImageFont
 from wordcloud import WordCloud
-import numpy as np
-from PIL import Image, ImageFont, ImageDraw
 
 import config
 
@@ -451,13 +451,20 @@ class twitwit:
     ):
         return "hsl(0,100%, 1%)"
 
-    def getWordCloud(self, data):
+    def getWordCloud(self, data, title, mask):
+        if mask == "likes":
+            img_mask = np.array(Image.open("legislator.jpg"))
+            location = "center"
+        else:
+            img_mask = None
+            location = "left"
+            
+        title_font = {"family": "MV Boli", "color": "black", "size": 20}
 
-        title_font = {"family": "Segoe Print", "color": "black", "size": 7}
-
-        wordcloud = WordCloud(font_path = 'AllerDisplay.ttf', background_color="white", width=3000, height=2000, max_words=500).generate_from_text(data)
+        wordcloud = WordCloud(font_path = 'AllerDisplay.ttf', background_color="white", width=3000, height=2000, mask = img_mask, max_words=500).generate_from_text(data)
         wordcloud.recolor(color_func = self._black_color_func)
         plt.figure(figsize=(15,10))
+        plt.title(title, fontdict=title_font, loc=location)
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
         plt.savefig('words.png')
@@ -466,25 +473,21 @@ class twitwit:
         return
 
 
-user = "piper4missouri"
+user = "USRepLong"
 
 t = twitwit()
-title = f"Recent tweets by @{user} liked. #moleg brought to you by @politwit1984"
-title2 = f"@{user}'s latest tweets. #moleg brought to you by @politwit1984"
 
-tweets = t.getUserTweets(t.getTwitterID(user))
+#title2 = f"@{user}'s latest tweets. #moleg brought to you by @politwit1984"
+title = f"Recent tweets by @{user} liked. #moleg brought to you by @politwit1984"
+
+#tweets = t.getUserTweets(t.getTwitterID(user))
+tweets = t.getUserLikedTweets(t.getTwitterID(user))
 
 washed_tweets = t.washTweetsForCloud(tweets)
 
 str_tweets = t.stringIT(washed_tweets)
 
 t.getWordCloud(
-str_tweets
+str_tweets, title, "likes"
 )
 
-
-# data = pd.DataFrame(tweets)
-
-# data.rename(columns = {0:'words'}, inplace = True)
-
-# t.getWordCloud(tweets)

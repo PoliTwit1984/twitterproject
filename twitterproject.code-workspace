@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\Politwitverse"
+		}
+	],
+	"settings": {
+		"python.formatting.provider": "black"
+	}
+}
