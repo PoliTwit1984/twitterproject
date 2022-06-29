@@ -9,7 +9,6 @@ import pandas as pd
 import preprocessor as p
 import tweepy
 import wordcloud
-from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
