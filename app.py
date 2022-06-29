@@ -1,14 +1,11 @@
 import streamlit as st
 import re
 import string
-
 import matplotlib.pyplot as plt
-import nltk
 import numpy as np
 import pandas as pd
 import preprocessor as p
 import tweepy
-import wordcloud
 from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
