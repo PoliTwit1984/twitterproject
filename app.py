@@ -14,10 +14,6 @@ from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
 
-import config
-
-
-
 
 auth = tweepy.OAuthHandler(st.secrets["consumer_key"],
                            st.secrets["consumer_secret"])
