@@ -356,7 +356,7 @@ new_stopwords = [
     "amp",
     "ive",
     "cant",
-    "dont"
+    "dont",
 ]
 
 stpwrd = nltk.corpus.stopwords.words("english")
@@ -371,7 +371,7 @@ class twitwit:
     def stringIT(self, wannabestring):
         convertedstring = ",".join(map(str, wannabestring))
         return convertedstring
-    
+
     def getFollowedList(self, user_id):
         response = client.get_followed_lists(id=user_id)
         return response
@@ -416,7 +416,7 @@ class twitwit:
                 )
                 final_clean_tweet = final_clean_tweet.lower()
                 clean_tweet_word_list.append(final_clean_tweet)
-                
+
         convertedstring = ",".join(map(str, clean_tweet_word_list))
         re.sub(" +", " ", convertedstring)
         convertedstring = convertedstring.replace(",,", " ")
@@ -458,20 +458,27 @@ class twitwit:
         else:
             img_mask = None
             location = "left"
-            
+
         title_font = {"family": "MV Boli", "color": "black", "size": 20}
 
-        wordcloud = WordCloud(font_path = 'AllerDisplay.ttf', background_color="white", width=3000, height=2000, mask = img_mask, max_words=500).generate_from_text(data)
-        wordcloud.recolor(color_func = self._black_color_func)
-        plt.figure(figsize=(15,10))
+        wordcloud = WordCloud(
+            font_path="AllerDisplay.ttf",
+            background_color="white",
+            width=3000,
+            height=2000,
+            mask=img_mask,
+            max_words=500,
+        ).generate_from_text(data)
+        wordcloud.recolor(color_func=self._black_color_func)
+        plt.figure(figsize=(15, 10))
         plt.title(title, fontdict=title_font, loc=location)
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
         plt.show()
-        plt.savefig('words.png')
-        
+        plt.savefig("words.png")
+
         return
-    
+
     def get_user_information(self, twitter_user):
 
         dict = {}
@@ -496,12 +503,26 @@ class twitwit:
 
         return dict
 
-user = "meaccoleman"
+    def get_twitter_trends(self):
+        trend_list = []
+        response = api.get_place_trends("2486982")  # WOEID for St. Louis, MO
+        
+        for i in response:
+            for key in i.keys():
+                if key == "trends":
+                    for trend in i[key]:
+                        trend_list.append(trend["name"])
+
+        return trend_list
+
+
+# user = "meaccoleman"
 
 
 t = twitwit()
-user_info = t.get_user_information(user)
-print(user_info.get("user_created_at"))
+print(t.get_twitter_trends())
+# user_info = t.get_user_information(user)
+# print(user_info.get("user_created_at"))
 # response = t.getFollowedList(t.getTwitterID("piper4missouri"))
 
 # print(response)
@@ -518,5 +539,3 @@ print(user_info.get("user_created_at"))
 
 # t.getWordCloud(
 #  str_tweets, title, "none")
-
-
