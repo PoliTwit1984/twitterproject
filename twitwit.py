@@ -1,4 +1,3 @@
-import json
 import re
 import string
 
@@ -11,7 +10,7 @@ import tweepy
 import wordcloud
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from wordcloud import WordCloud
 
 import config
