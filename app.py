@@ -9,6 +9,8 @@ import tweepy
 from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
+import nltk
+nltk.download('punkt')
 
 
 auth = tweepy.OAuthHandler(st.secrets["consumer_key"],
