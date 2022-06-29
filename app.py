@@ -361,7 +361,7 @@ new_stopwords = [
     "dont"
 ]
 
-stpwrd = nltk.corpus.stopwords.words("english")
+stpwrd = []
 stpwrd.extend(new_stopwords)
 
 
