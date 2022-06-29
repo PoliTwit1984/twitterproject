@@ -355,6 +355,9 @@ new_stopwords = [
     "im",
     "hes",
     "amp",
+    "ive",
+    "cant",
+    "dont"
 ]
 
 stpwrd = nltk.corpus.stopwords.words("english")
@@ -369,16 +372,17 @@ class twitwit:
     def stringIT(self, wannabestring):
         convertedstring = ",".join(map(str, wannabestring))
         return convertedstring
+    
+    def getFollowedList(self, user_id):
+        response = client.get_followed_lists(id=user_id)
+        return response
 
     def getTwitterID(self, username):
-
         response = client.get_user(username=username)
         user_id = response.data.id
-
         return user_id
 
     def getFollowersCount(self, username):
-
         response = client.get_user(
             username=username,
             user_fields=[
@@ -398,11 +402,9 @@ class twitwit:
             expansions=["pinned_tweet_id"],
         )
         followersCount = response.data.public_metrics.get("followers_count")
-
         return followersCount
 
     def washTweetsForCloud(self, response):
-
         p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.MENTION, p.OPT.EMOJI, p.OPT.SMILEY)
         clean_tweet_word_list = []
         final_clean_words = []
@@ -415,8 +417,7 @@ class twitwit:
                 )
                 final_clean_tweet = final_clean_tweet.lower()
                 clean_tweet_word_list.append(final_clean_tweet)
-                # word_list = self._makeitastring(clean_tweet_word_list)
-
+                
         convertedstring = ",".join(map(str, clean_tweet_word_list))
         re.sub(" +", " ", convertedstring)
         convertedstring = convertedstring.replace(",,", " ")
@@ -467,27 +468,56 @@ class twitwit:
         plt.title(title, fontdict=title_font, loc=location)
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
+        plt.show()
         plt.savefig('words.png')
-
-
+        
         return
+    
+    def get_user_information(self, twitter_user):
 
+        dict = {}
+        user = api.get_user(screen_name=twitter_user)
+        dict["screen_name"] = user.screen_name
+        dict["user_name"] = user.name
+        dict["user_description"] = user.description
+        dict["user_location"] = user.location
+        dict["user_created_at"] = user.created_at
+        dict["user_tweets"] = user.statuses_count
+        dict["user_liked_tweets"] = user.favourites_count
+        dict["user_followers_count"] = user.followers_count
+        dict["user_following_count"] = user.friends_count
+        dict["user_get_enabled"] = user.geo_enabled
+        dict["user_twitter_id"] = user.id
+        dict["user_listed_count"] = user.listed_count
+        dict["user_verified"] = user.verified
+        dict["user_geo_enabled"] = user.geo_enabled
+        dict["user_profile_link"] = "https://twitter.com/" + user.screen_name
+        dict["user_created_at"] = user.created_at
+        dict["user_image_url"] = user.profile_image_url
 
-user = "USRepLong"
+        return dict
+
+user = "meaccoleman"
+
 
 t = twitwit()
+user_info = t.get_user_information(user)
+print(user_info.get("user_created_at"))
+# response = t.getFollowedList(t.getTwitterID("piper4missouri"))
 
-#title2 = f"@{user}'s latest tweets. #moleg brought to you by @politwit1984"
-title = f"Recent tweets by @{user} liked. #moleg brought to you by @politwit1984"
+# print(response)
 
-#tweets = t.getUserTweets(t.getTwitterID(user))
-tweets = t.getUserLikedTweets(t.getTwitterID(user))
+# title = f"Latest tweets by @{user}. #moleg brought to you by @politwit1984"
+# #title = f"Recent liked tweets by @{user}. #moleg brought to you by @politwit1984"
 
-washed_tweets = t.washTweetsForCloud(tweets)
+# tweets = t.getUserTweets(t.getTwitterID(user))
+# #tweets = t.getUserLikedTweets(t.getTwitterID(user))
 
-str_tweets = t.stringIT(washed_tweets)
+# washed_tweets = t.washTweetsForCloud(tweets)
 
-t.getWordCloud(
-str_tweets, title, "likes"
-)
+# str_tweets = t.stringIT(washed_tweets)
+
+# t.getWordCloud(
+#  str_tweets, title, "none")
+
 

@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "..\\Politwitverse"
+		},
+		{
+			"path": "..\\molegstream"
+		},
+		{
+			"path": "..\\webtwitterutils\\twitstreamutils"
 		}
 	],
 	"settings": {
