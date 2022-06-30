@@ -360,7 +360,7 @@ new_stopwords = [
 ]
 
 stpwrd = []
-stpwrd.extend(new_stopwords)
+stpwrd.extend(new_stopwords)  # add custom list of stopwords
 
 
 class twitwit:
