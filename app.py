@@ -565,6 +565,7 @@ elif selection == "Twitter User Wordcloud by Tweets":
     twitter_name = st.text_input(
         "Enter Twitter screen name to get wordcloud of user's recent tweets"
     )
+    twitter_name = twitter_name.replace("@", "")
     if twitter_name:
         st.write("This may take up to 60 seconds but it is worth it!")
         st.write("Getting user's recent tweets...")
@@ -587,6 +588,7 @@ elif selection == "Twitter User Wordcloud by Likes":
     twitter_name = st.text_input(
         "Enter Twitter screen name to get wordcloud of user's recent liked tweets"
     )
+    twitter_name = twitter_name.replace("@", "")
     if twitter_name:
         st.write("This may take up to 60 seconds but it is worth it!")
         st.write("Getting user's recent tweets...")
@@ -623,6 +625,7 @@ elif selection == "Twitter Lists a User has been added to":
     twitter_name = st.text_input(
         "Enter Twitter Screen Name to Get List Memberships"
     )
+    twitter_name = twitter_name.replace("@", "")
     if twitter_name:
         response = client.get_list_memberships(t.getTwitterID(twitter_name))
         if response.data:
