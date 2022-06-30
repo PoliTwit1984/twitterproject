@@ -605,6 +605,5 @@ elif selection == "Twitter Trends near St. Louis, MO":
     i = 1
     for trend in response:
         trend_name, trend_url = trend.split(",")
-        st.write(i, trend_name, " "+trend_url)
-        st.write(trend_url)
+        st.write(i, trend_name, " - "+trend_url)
         i += 1
