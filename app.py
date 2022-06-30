@@ -525,6 +525,7 @@ selection_list = [
     "Twitter User Wordcloud by Tweets",
     "Twitter User Wordcloud by Likes",
     "Twitter Trends near St. Louis, MO",
+    "Twitter Lists a User has been added to"
 ]
 st.sidebar.title("Select Twitter Tool")
 selection = st.sidebar.selectbox(label="", options=selection_list)
@@ -607,3 +608,24 @@ elif selection == "Twitter Trends near St. Louis, MO":
         trend_name, trend_url = trend.split(",")
         st.write(i, trend_name, " - "+trend_url)
         i += 1
+        
+elif selection == "Twitter Lists a User has been added to":
+
+    st.header("Twitter List Memberships")
+    twitter_name = st.text_input(
+        "Enter Twitter Screen Name to Get List Memberships"
+    )
+    if twitter_name:
+        response = client.get_list_memberships(t.getTwitterID(twitter_name))
+        if response.data:
+            i = 1
+            for membership in response.data:
+                st.write(i, membership.name, ('https://twitter.com/i/lists/'+str(membership.id)))
+                i += 1
+        else:
+            st.write("User doesn't belong to any lists.")
+
+            
+    
+        
+            

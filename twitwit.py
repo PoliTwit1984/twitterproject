@@ -453,11 +453,11 @@ class twitwit:
 
     def getWordCloud(self, data, title, mask):
         if mask == "likes":
-            img_mask = np.array(Image.open("legislator.jpg"))
+            img_mask = np.array(Image.open("heart.png"))
             location = "center"
         else:
-            img_mask = None
-            location = "left"
+            img_mask = np.array(Image.open("heart.png"))
+            location = "center"
 
         title_font = {"family": "MV Boli", "color": "black", "size": 20}
 
@@ -490,8 +490,8 @@ class twitwit:
         dict["user_created_at"] = user.created_at
         dict["user_tweets"] = user.statuses_count
         dict["user_liked_tweets"] = user.favourites_count
-        dict["user_followers_count"] = user.followers_count
-        dict["user_following_count"] = user.friends_count
+        dict["user_followers_count"] = user.friends_count
+        dict["user_following_count"] = user.followers_count
         dict["user_get_enabled"] = user.geo_enabled
         dict["user_twitter_id"] = user.id
         dict["user_listed_count"] = user.listed_count
@@ -514,13 +514,19 @@ class twitwit:
                         trend_list.append(trend["name"])
 
         return trend_list
+    
+    def get_user_list_membership(self, user_id):
+        response = client.get_list_memberships(id=user_id) 
+        for membership in response.data:
+            print(membership.name)
+        return response
 
 
-# user = "meaccoleman"
+user = "meaccoleman"
 
 
 t = twitwit()
-print(t.get_twitter_trends())
+print(t.get_user_list_membership(t.getTwitterID(user)))
 # user_info = t.get_user_information(user)
 # print(user_info.get("user_created_at"))
 # response = t.getFollowedList(t.getTwitterID("piper4missouri"))
