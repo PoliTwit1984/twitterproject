@@ -649,5 +649,5 @@ elif selection == "Moleg Tweet Wordcloud":
     st.pyplot()
     st.write("We told you that you'd like it!")
     st.write("Right click on the image to save and tweet it out.")
-    st.write("If you want to getanotherwordcloud, just enter a new name above.")
+
 
