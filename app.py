@@ -522,7 +522,7 @@ class twitwit:
 
 
 t = twitwit()
-st.title("Twitter Utilities")
+st.title("Twitter Utilities - geared toward Missouri Politics")
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
 selection_list = [
