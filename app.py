@@ -542,6 +542,7 @@ if selection == "Twitter User Information":
     twitter_name = st.text_input(
         "Enter Twitter Screen Name to Get Information about Twitter User:"
     )
+    twitter_name = twitter_name.replace("@", "")
     if twitter_name:
         user_info = t.get_user_information(twitter_name)
         st.image(user_info["user_image_url"])
