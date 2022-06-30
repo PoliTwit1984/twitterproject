@@ -356,6 +356,7 @@ new_stopwords = [
     "ive",
     "cant",
     "dont",
+    "youre"
 ]
 
 stpwrd = []
