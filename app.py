@@ -13,7 +13,6 @@ import nltk
 
 nltk.download("punkt")
 
-
 auth = tweepy.OAuthHandler(st.secrets["consumer_key"], st.secrets["consumer_secret"])
 
 auth.set_access_token(st.secrets["access_token"], st.secrets["access_token_secret"])
@@ -577,7 +576,7 @@ elif selection == "Twitter User Wordcloud by Tweets":
         washed_tweets = t.washTweetsForCloud(tweets)
         st.write("Generating wordcloud - this is the long part...")
         str_tweets = t.stringIT(washed_tweets)
-        t.getWordCloud(str_tweets, title, "like")
+        t.getWordCloud(str_tweets, title, "user")
         st.pyplot()
         st.write("We told you that you'd like it!")
         st.write("Right click on the image to save and tweet it out.")
