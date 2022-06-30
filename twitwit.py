@@ -521,12 +521,13 @@ class twitwit:
             print(membership.name)
         return response
 
+response = client.get_list_tweets(id="1467207384011526144")
+print(response)
+# user = "meaccoleman"
 
-user = "meaccoleman"
 
-
-t = twitwit()
-print(t.get_user_list_membership(t.getTwitterID(user)))
+# t = twitwit()
+# print(t.get_user_list_membership(t.getTwitterID(user)))
 # user_info = t.get_user_information(user)
 # print(user_info.get("user_created_at"))
 # response = t.getFollowedList(t.getTwitterID("piper4missouri"))

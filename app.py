@@ -455,11 +455,16 @@ class twitwit:
         if mask == "likes":
             img_mask = np.array(Image.open("heart.png"))
             location = "center"
-        else:
-            img_mask = np.array(Image.open("cloud.png"))
+        elif mask == "moleg":
+            img_mask = np.array(Image.open("mo.png"))
             location = "center"
+        elif mask == "user":
+            img_mask = np.array(Image.open("cloud.png"))
+            location = "center" 
+        else:
+            img_mask = "none"
 
-        title_font = {"family": "MV Boli", "color": "black", "size": 20}
+        title_font = {"family": "MV Boli", "color": "black", "size": 16}
 
         wordcloud = WordCloud(
             font_path="AllerDisplay.ttf",
@@ -524,8 +529,10 @@ selection_list = [
     "Twitter User Information",
     "Twitter User Wordcloud by Tweets",
     "Twitter User Wordcloud by Likes",
+    "Moleg Tweet Wordcloud",
     "Twitter Trends near St. Louis, MO",
     "Twitter Lists a User has been added to"
+    
 ]
 st.sidebar.title("Select Twitter Tool")
 selection = st.sidebar.selectbox(label="", options=selection_list)
@@ -625,7 +632,22 @@ elif selection == "Twitter Lists a User has been added to":
         else:
             st.write("User doesn't belong to any lists.")
 
-            
-    
-        
-            
+elif selection == "Moleg Tweet Wordcloud":
+    list_id = "1467207384011526144"
+    st.header("Get a Wordcloud Based on all Recent Tweets from Missouri Legislators")
+    st.write("This may take up to 60 seconds but it is worth it!")
+    st.write("Getting legislators recent tweets...")
+    title = (
+        f"Latest tweets by Missouri legislators. #moleg brought to you by @politwit1984"
+    )
+    tweets = tweepy.Paginator(client.get_list_tweets, id=list_id, max_results=100).flatten(limit=200)
+    st.write("Cleaning tweets...")
+    washed_tweets = t.washTweetsForCloud(tweets)
+    st.write("Generating wordcloud - this is the long part...")
+    str_tweets = t.stringIT(washed_tweets)
+    t.getWordCloud(str_tweets, title, "moleg")
+    st.pyplot()
+    st.write("We told you that you'd like it!")
+    st.write("Right click on the image to save and tweet it out.")
+    st.write("If you want to getanotherwordcloud, just enter a new name above.")
+
