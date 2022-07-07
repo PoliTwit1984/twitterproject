@@ -12,6 +12,9 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
+from collections import Counter
+
+
 
 import config
 
@@ -357,6 +360,7 @@ new_stopwords = [
     "ive",
     "cant",
     "dont",
+    "mosen"
 ]
 
 stpwrd = nltk.corpus.stopwords.words("english")
@@ -382,6 +386,12 @@ class twitwit:
         return user_id
 
     def getFollowersCount(self, username):
+        """
+        It gets the followers count of a user.
+        
+        :param username: The username of the account you want to get the followers count of
+        :return: The followers count of the user.
+        """
         response = client.get_user(
             username=username,
             user_fields=[
@@ -404,10 +414,11 @@ class twitwit:
         return followersCount
 
     def washTweetsForCloud(self, response):
+       # Cleaning the tweets and removing punctuation, stopwords, and other things.
         p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.MENTION, p.OPT.EMOJI, p.OPT.SMILEY)
         clean_tweet_word_list = []
         final_clean_words = []
-        for tweet in response:
+        for tweet in response.data:
             if not tweet.text.startswith("RT"):
                 clean_tweet = tweet.text
                 clean_tweet = p.clean(tweet.text)
@@ -431,6 +442,12 @@ class twitwit:
         return final_clean_words
 
     def getUserTweets(self, user_id):
+        """
+        It gets the tweets of a user.
+        
+        :param user_id: The user ID of the user you want to get tweets from
+        :return: A list of tweets
+        """
 
         response = tweepy.Paginator(
             client.get_users_tweets, id=user_id, max_results=100
@@ -520,29 +537,28 @@ class twitwit:
         for membership in response.data:
             print(membership.name)
         return response
+    
+    def get_trending_words(self):
+        query = "#moleg #mosen -is:retweet"
+        response = client.search_recent_tweets(query=query, max_results=100)        
+        tweet_list = self.washTweetsForCloud(response)        
+        word_count = Counter(tweet_list)   
 
-response = client.get_list_tweets(id="1467207384011526144")
-print(response)
-# user = "meaccoleman"
+        return word_count
+    
+t = twitwit()
+
+word_count = t.get_trending_words()
+
+print(word_count)
 
 
-# t = twitwit()
-# print(t.get_user_list_membership(t.getTwitterID(user)))
-# user_info = t.get_user_information(user)
-# print(user_info.get("user_created_at"))
-# response = t.getFollowedList(t.getTwitterID("piper4missouri"))
 
-# print(response)
 
-# title = f"Latest tweets by @{user}. #moleg brought to you by @politwit1984"
-# #title = f"Recent liked tweets by @{user}. #moleg brought to you by @politwit1984"
+        
 
-# tweets = t.getUserTweets(t.getTwitterID(user))
-# #tweets = t.getUserLikedTweets(t.getTwitterID(user))
+        
+        
 
-# washed_tweets = t.washTweetsForCloud(tweets)
 
-# str_tweets = t.stringIT(washed_tweets)
 
-# t.getWordCloud(
-#  str_tweets, title, "none")

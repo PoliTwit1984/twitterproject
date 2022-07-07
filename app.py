@@ -10,6 +10,7 @@ from nltk.tokenize import word_tokenize
 from PIL import Image
 from wordcloud import WordCloud
 import nltk
+from collections import Counter
 
 nltk.download("punkt")
 
@@ -407,7 +408,7 @@ class twitwit:
         p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.MENTION, p.OPT.EMOJI, p.OPT.SMILEY)
         clean_tweet_word_list = []
         final_clean_words = []
-        for tweet in response:
+        for tweet in response.data:
             if not tweet.text.startswith("RT"):
                 clean_tweet = tweet.text
                 clean_tweet = p.clean(tweet.text)
@@ -519,6 +520,14 @@ class twitwit:
                         trend_list.append(trend["name"] + ", " + trend["url"])
 
         return trend_list
+    
+    def get_trending_words(self):
+        query = "#moleg #mosen -is:retweet"
+        response = client.search_recent_tweets(query=query, max_results=100)        
+        tweet_list = self.washTweetsForCloud(response)        
+        word_count = Counter(tweet_list)   
+
+        return word_count
 
 
 t = twitwit()
@@ -531,7 +540,8 @@ selection_list = [
     "Twitter User Wordcloud by Likes",
     "Moleg Tweet Wordcloud",
     "Twitter Trends near St. Louis, MO",
-    "Twitter Lists a User has been added to"
+    "Twitter Lists a User has been added to",
+    "Realtime Trending #moleg Words"
     
 ]
 st.sidebar.title("Select Twitter Tool")
@@ -653,5 +663,8 @@ elif selection == "Moleg Tweet Wordcloud":
     st.pyplot()
     st.write("We told you that you'd like it!")
     st.write("Right click on the image to save and tweet it out.")
-
-
+    
+elif selection == "Realtime Trending #moleg Words":
+    st.header("Get Realtime Trending #moleg Words from Last 100 Tweets.")
+    trending_words = t.get_trending_words()
+    st.write(trending_words)
