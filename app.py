@@ -410,7 +410,7 @@ class twitwit:
         p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.MENTION, p.OPT.EMOJI, p.OPT.SMILEY)
         clean_tweet_word_list = []
         final_clean_words = []
-        for tweet in response:
+        for tweet in response.data:
             if not tweet.text.startswith("RT"):
                 clean_tweet = tweet.text
                 clean_tweet = p.clean(tweet.text)
