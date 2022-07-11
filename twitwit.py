@@ -418,7 +418,7 @@ class twitwit:
         p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.MENTION, p.OPT.EMOJI, p.OPT.SMILEY)
         clean_tweet_word_list = []
         final_clean_words = []
-        for tweet in response.data:
+        for tweet in response:
             if not tweet.text.startswith("RT"):
                 clean_tweet = tweet.text
                 clean_tweet = p.clean(tweet.text)
@@ -534,7 +534,7 @@ class twitwit:
     
     def get_user_list_membership(self, user_id):
         response = client.get_list_memberships(id=user_id) 
-        for membership in response.data:
+        for membership in response:
             print(membership.name)
         return response
     
