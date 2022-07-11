@@ -585,7 +585,7 @@ elif selection == "Twitter User Wordcloud by Tweets":
         title = (
             f"Latest tweets by @{twitter_name}. #moleg brought to you by @politwit1984"
         )
-        tweets = t.getUserTweets(t.getTwitterID(twitter_name))
+        tweets = t.getUserTweets(t.getTwitterID)
         st.write("Cleaning user's tweets...")
         washed_tweets = t.washTweetsForCloud(tweets)
         st.write("Generating wordcloud - this is the long part...")
