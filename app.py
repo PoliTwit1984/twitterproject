@@ -524,7 +524,7 @@ class twitwit:
         return trend_list
     
     def get_trending_words(self):
-        query = "#moleg #mosen #mogove -is:retweet"
+        query = "#moleg OR #mosen OR #mogov -is:retweet"
         response = client.search_recent_tweets(query=query, max_results=100)        
         tweet_list = self.washTweetsForCloud(response)        
         word_count = Counter(tweet_list)
