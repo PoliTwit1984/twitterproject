@@ -1,7 +1,8 @@
+import matplotlib.pyplot as plt
 import streamlit as st
 import re
 import string
-import matplotlib.pyplot as plt
+
 import numpy as np
 import pandas as pd
 import preprocessor as p
