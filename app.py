@@ -527,7 +527,7 @@ class twitwit:
     def get_trending_words(self):
         query = "#moleg OR #mosen OR #mogov -is:retweet"
         response = client.search_recent_tweets(query=query, max_results=100)        
-        tweet_list = self.washTweetsForCloud(response)        
+        tweet_list = self.washTweetsForCloud(response.data)        
         word_count = Counter(tweet_list)
         words = word_count.most_common(10)   
 
